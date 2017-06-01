@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="Product">
+	<typeAlias alias="product" type="com.test.dto.ProductVO"/>
+	
+	<select id="productList" resultClass="product">
+		select * from product
+	</select>
+	
+	<select id="searchProduct" resultClass="product">
+		select * from product where 1=1
+		<isEqual property="index" compareValue="proNum" prepend="AND">
+			pronum like '%'||#key#||'%'
+		</isEqual>
+		<isEqual property="index" compareValue="proName" prepend="AND">
+			proname like '%'||#key#||'%'
+		</isEqual>
+		<isEqual property="index" compareValue="maker" prepend="AND">
+			maker like '%'||#key#||'%'
+		</isEqual>
+	</select>
+	
+	<select id="selectProduct" resultClass="product">
+		select * from product where pronum =#proNum#
+	</select>
+	
+	
+	<update id="insertProduct" parameterClass="product">
+		insert into product(pronum,proname,price,maker,account)
+		values(#proNum#,#proName#,#price#,#maker#,#account#)
+	</update>
+	
+	<update id="deleteProduct">
+		delete from product where pronum=#proNum#
+	</update>
+	
+	<update id="updateProduct" parameterClass="product">
+		update product set
+		proname=#proName#,
+		price=#price#,
+		maker=#maker#,
+		account=#account#
+		where pronum=#proNum#
+	</update>
+
+
+</sqlMap>
